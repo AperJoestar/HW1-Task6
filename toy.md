@@ -1,0 +1,1 @@
+Fit dx/dt = -a*x to samples of x(t)=exp(-2t), t in [0,2]. Report the free-run RMSE.
