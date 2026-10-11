@@ -81,7 +81,14 @@ def orchestrator_node(state):
         if d.next_role == "finish" and not beats_baseline(msgs):
             ran = has_real_rmse(msgs)
             planned = any(m["role"] == "scientist" for m in msgs)
-            if ran:
+            last = next((m["role"] for m in reversed(msgs) if m["role"] != "orchestrator"), "")
+            if ran and last == "scientist":
+                d = Decision(
+                    next_role="executor",
+                    instruction=("Implement the scientist's latest revised plan in a new file, run it, and report "
+                                 "the TEST_RMSE the script printed. Train one architecture per script, under 250 seconds."),
+                    reason="Finish refused: the revised plan has not been run yet.")
+            elif ran:
                 d = Decision(
                     next_role="scientist",
                     instruction=("The best free-run test RMSE so far is not below the zero-prediction baseline. "

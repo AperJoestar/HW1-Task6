@@ -1,0 +1,18 @@
+{
+  "ModelA": {
+    "train_rmse": 1.043,
+    "test_rmse": 0.060491
+  },
+  "ModelB": {
+    "train_rmse": 0.0538,
+    "test_rmse": 0.060982
+  },
+  "ModelC": {
+    "train_rmse": 0.0587,
+    "test_rmse": 0.06061
+  },
+  "ModelI": {
+    "train_rmse": 4.318383586012983,
+    "test_rmse": 4.06138680705917
+  }
+}
