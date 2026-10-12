@@ -1,9 +1,14 @@
 import sys
-from pathlib import Path
-from graph import build_graph
-from orchestrator import has_real_rmse
 import shutil
+from datetime import datetime
+from pathlib import Path
+import bench
 import tools as T
+from graph import build_graph
+import orchestrator as O
+
+# every session writes its focus_bench results and images into its own folder
+bench.OUT_DIR = Path("bench_results") / datetime.now().strftime("session_%Y%m%d_%H%M%S")
 
 def run(problem: str, out: str = "transcript.md"):
     app = build_graph()
@@ -15,9 +20,12 @@ def run(problem: str, out: str = "transcript.md"):
             for m in delta.get("messages", []):
                 print(f"\n===== {m['role'].upper()} =====\n{m['text']}\n", flush=True)
                 turns.append(m)
-    Path(out).write_text("\n\n".join(f"## {t['role']}\n\n{t['text']}" for t in turns),
-                         encoding="utf-8")
-    print("\nReal RMSE printed by a script that ran:", has_real_rmse(turns))
+                Path(out).write_text("\n\n".join(f"## {t['role']}\n\n{t['text']}" for t in turns),
+                                     encoding="utf-8")
+    if O.FINISH_RULE == "focus":
+        print(f"\nfocus_bench runs recorded: {len(O._focus_runs())} (results in {bench.OUT_DIR})")
+    else:
+        print("\nReal RMSE printed by a script that ran:", O.has_real_rmse(turns))
     print("Transcript saved to", out)
 
 if __name__ == "__main__":

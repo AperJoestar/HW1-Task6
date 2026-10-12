@@ -1,0 +1,2 @@
+run_id,label,macropixel_size,n_macropixels,focus_size,bg_width,n_bg,iterations,flips,seed,enhancement_initial,enhancement_final,image,seconds
+1,,8,64,3,3,4,3000,1,,1.455,6.774,bench_results\run_001.png,3.92
